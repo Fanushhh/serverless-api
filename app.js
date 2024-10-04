@@ -1,47 +1,31 @@
 const express = require("express");
-const serverless = require("serverless-http");
-const mongoose = require("mongoose");
 const app = express();
 
 const tasks = require("./routes/tasks");
+const connectDB = require("./db/connect");
 require("dotenv").config();
+// middleware
 
-// Middleware
 app.use(express.json());
 
-// Routes
+const port = process.env.PORT || 3000;
+
 app.use("/api/v1/tasks", tasks);
 
-// Lazy Database Connection
-let isConnected = false; // Track database connection state
 
-const connectDB = async () => {
-  if (isConnected) {
-    return;
-  }
+
+const start = async () => {
   try {
     console.time('DB Connection Time');
-    await mongoose.connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await connectDB(process.env.MONGO_URL);
     console.timeEnd('DB Connection Time');
-    isConnected = true;
-    console.log("Database connected successfully");
+    app.listen(port, () => {
+        console.log(`Server is up on port ${port}`);
+      });
   } catch (error) {
-    console.log("Error connecting to the database", error);
-    throw new Error("Database connection failed");
+    console.log(error);
   }
 };
+start();
 
-// Wrap the handler to ensure DB connection is made before handling requests
-app.use(async (req, res, next) => {
-  if (!isConnected) {
-    await connectDB(); // Ensure DB is connected before proceeding with the request
-  }
-  next();
-});
 
-// Export the serverless function handler
-module.exports = app;
-module.exports.handler = serverless(app);
