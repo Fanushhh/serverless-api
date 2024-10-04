@@ -17,7 +17,9 @@ app.use("/api/v1/tasks", tasks);
 
 const start = async () => {
   try {
+    console.time('DB Connection Time');
     await connectDB(process.env.MONGO_URL);
+    console.timeEnd('DB Connection Time');
     app.listen(port, () => {
         console.log(`Server is up on port ${port}`);
       });
