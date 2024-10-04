@@ -7,6 +7,10 @@
       }
     ],
     "routes": [
+        {
+            "src": "/api/v1/tasks",  
+            "dest": "/api/index.js"     
+          },
       {
         "src": "/api/v1/tasks/(.*)",   
         "dest": "/api/index.js"        
