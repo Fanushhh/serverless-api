@@ -1,13 +1,14 @@
 const Task = require("../models/Task");
 
 const getAllTasks = async (req, res) => {
-//   try {
-//     const tasks = await Task.find({});
-//     res.status(201).json({ tasks });
-//   } catch (err) {
-//     res.status(500).json({ msg: err.message });
-//   }
-res.send("Hello from the task route");
+  try {
+    console.time("DB Query Time");
+    const tasks = await Task.find({});
+    console.timeEnd("DB Query Time");
+    res.status(200).json({ tasks });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
 };
 const getTask = async (req, res) => {
   try {
@@ -16,7 +17,7 @@ const getTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ msg: `No task with id : ${taskID}` });
     } else {
-      res.status(201).json({ task });
+      res.status(200).json({ task });
     }
   } catch (err) {
     res.status(500).json({ msg: err.message });
