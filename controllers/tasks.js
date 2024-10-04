@@ -1,8 +1,8 @@
 const Task = require("../models/Task");
 
 const getAllTasks = async (req, res) => {
-  try {
-    console.time("DB Query Time");
+    try {
+        console.time("DB Query Time");
     const tasks = await Task.find({});
     console.timeEnd("DB Query Time");
     res.status(200).json({ tasks });
