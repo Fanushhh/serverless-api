@@ -13,8 +13,8 @@
       }
     ],
     "functions":{
-        "api/v1/tasks":{
-            "maxDuration" : 60
+        "api/v1/tasks/*.js":{
+            "maxDuration": 60
         }
     }
   }
