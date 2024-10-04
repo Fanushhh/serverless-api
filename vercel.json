@@ -11,11 +11,7 @@
         "src": "/api/(.*)",
         "dest": "/api/index.js"
       }
-    ],
-    "functions":{
-        "api/v1/tasks/*.js":{
-            "maxDuration": 60
-        }
-    }
+    ]
+    
   }
   
